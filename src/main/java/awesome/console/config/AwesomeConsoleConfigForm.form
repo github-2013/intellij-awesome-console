@@ -30,7 +30,7 @@
               <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <selected value="true"/>
+              <selected value="false"/>
               <text value="Limit line matching by"/>
             </properties>
           </component>
@@ -54,7 +54,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="\"/>
+              <text value="0"/>
             </properties>
           </component>
           <component id="e75fa" class="javax.swing.JCheckBox" binding="matchLinesLongerThanCheckBox" default-binding="true">
@@ -62,8 +62,9 @@
               <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <selected value="true"/>
+              <selected value="false"/>
               <text value="Match lines longer than the limit chunk by chunk."/>
+              <toolTipText value="Check this to keep on matching the text of a line longer than the defined limit. Keep in mind: The text will be matched chunk by chunk, so it might miss some links."/>
             </properties>
           </component>
           <component id="8b692" class="javax.swing.JCheckBox" binding="searchForURLsFileCheckBox" default-binding="true">
@@ -72,6 +73,7 @@
             </constraints>
             <properties>
               <text value="Match URLs (file, ftp, http(s)) Protocol."/>
+              <toolTipText value="Uncheck if you do not want URLs parsed from the console."/>
             </properties>
           </component>
         </children>

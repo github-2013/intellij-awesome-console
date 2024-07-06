@@ -2,18 +2,25 @@
 	<name>Awesome Console X</name>
 	<id>awesome.console.x</id>
 	<vendor email="553926121@qq.com">awesome console x productions</vendor>
-	<description><![CDATA[
-		<p>Special thanks to anthraxx <a href="https://github.com/anthraxx/intellij-awesome-console" target="_blank">intellij-awesome-console</a> for providing the open-source code, which has enabled me to continue using such an excellent plugin.</p>
-		<p />
-		<p>Finally a plugin that makes links in your console and terminal at least 200% more awesome!<p/>
-		<br/>
-		<p>With this plugin all files and links in the console and terminal will be highlighted and can be clicked. Source code files will be opened in the IDE, other links with the default viewer/browser for this type.<p/>
-		<p>Now you just need to configure your favorite Logger to include the file name (and optionally a line number) and you can instantly jump to that file that throws this stupid error.<p/>
-		<br/>
-		<img src="https://raw.githubusercontent.com/github-2013/intellij-awesome-console-x/master/data/screenshot.png" alt="screenshot" /><br/>
-	]]></description>
- <change-notes><![CDATA[
+	<description>
+		<![CDATA[
+			<p>Special thanks to anthraxx <a href="https://github.com/anthraxx/intellij-awesome-console" target="_blank">intellij-awesome-console</a> for providing the open-source code, which has enabled me to continue using such an excellent plugin.</p>
+			<p />
+			<p>Finally a plugin that makes links in your console and terminal at least 200% more awesome!<p/>
+			<br/>
+			<p>With this plugin all files and links in the console and terminal will be highlighted and can be clicked. Source code files will be opened in the IDE, other links with the default viewer/browser for this type.<p/>
+			<p>Now you just need to configure your favorite Logger to include the file name (and optionally a line number) and you can instantly jump to that file that throws this stupid error.<p/>
+			<br/>
+			<img src="https://raw.githubusercontent.com/github-2013/intellij-awesome-console-x/master/data/screenshot.png" alt="screenshot" /><br/>
+		]]>
+	</description>
+ 	<change-notes>
+		<![CDATA[
 		<p>
+			<b>0.1337.14</b><br/>
+			<ul>
+				<li>add some default values for config panel</li>
+			</ul>
 			<b>0.1337.13</b><br/>
 			<ul>
 				<li>Fix doesn't match invisible path on mac</li>
@@ -95,7 +102,8 @@
 				<li>Initial release.</li>
 			</ul>
 		</p>
-	]]></change-notes>
+		]]>
+	</change-notes>
 	<depends>com.intellij.modules.lang</depends>
 	<extensions defaultExtensionNs="com.intellij">
 		<consoleFilterProvider implementation="awesome.console.AwesomeLinkFilterProvider"/>

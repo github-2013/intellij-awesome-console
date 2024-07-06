@@ -5,15 +5,12 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
-import java.util.Locale;
 
 public class AwesomeConsoleConfigForm {
 
@@ -23,6 +20,32 @@ public class AwesomeConsoleConfigForm {
 	public JCheckBox matchLinesLongerThanCheckBox;
 	public JCheckBox searchForURLsFileCheckBox;
 	public JLabel configTitleLabel;
+
+	public AwesomeConsoleConfigForm() {
+		maxLengthTextField.setText(String.valueOf(DefaultConfig.DEFAULT_LINE_MAX_LENGTH));
+		maxLengthTextField.setEnabled(true);
+		maxLengthTextField.setEditable(true);
+		limitLineMatchingByCheckBox.setSelected(DefaultConfig.DEFAULT_LIMIT_LINE_LENGTH);
+		matchLinesLongerThanCheckBox.setEnabled(true);
+		searchForURLsFileCheckBox.setSelected(DefaultConfig.DEFAULT_SEARCH_URLS);
+
+		limitLineMatchingByCheckBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				boolean selected = limitLineMatchingByCheckBox.isSelected();
+				maxLengthTextField.setEnabled(selected);
+				maxLengthTextField.setEditable(selected);
+				matchLinesLongerThanCheckBox.setEnabled(selected);
+			}
+		});
+		searchForURLsFileCheckBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				boolean isSelected = searchForURLsFileCheckBox.isSelected();
+				searchForURLsFileCheckBox.setSelected(isSelected);
+			}
+		});
+	}
 
 	private void createUIComponents() {
 		setupLineLimit();
