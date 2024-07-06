@@ -22,7 +22,7 @@ public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 
 	@Test
 	public void testSimpleFileWithLineNumberAndColumn() {
-		assertPathDetection("With line: file1.java:5:5", "file1.java:5:5", 5, 5);
+		assertPathDetection("With line: file1.java:5:5", "file1.java", 5, 5);
 	}
 
 	@Test
@@ -57,54 +57,54 @@ public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 
 	@Test
 	public void testFileInRelativeDirectoryWithLineNumber() {
-		assertPathDetection("With line: src/test.js:55", "src/test.js:55", 55);
+		assertPathDetection("With line: src/test.js:55", "src/test.js", 55);
 	}
 
 	@Test
 	public void testFileInRelativeDirectoryWithWindowsTypeScriptStyleLineAndColumnNumbers() {
 		// Windows, exception from TypeScript compiler
-		assertPathDetection("From stack trace: src\\api\\service.ts(29,50)", "src\\api\\service.ts(29,50)", 29, 50);
+		assertPathDetection("From stack trace: src\\api\\service.ts(29,50)", "src\\api\\service.ts", 29, 50);
 	}
 
 	@Test
 	public void testFileInAbsoluteDirectoryWithWindowsTypeScriptStyleLineAndColumnNumbers() {
 		// Windows, exception from TypeScript compiler
-		assertPathDetection("From stack trace: D:\\src\\api\\service.ts(29,50)", "D:\\src\\api\\service.ts(29,50)", 29, 50);
+		assertPathDetection("From stack trace: D:\\src\\api\\service.ts(29,50)", "D:\\src\\api\\service.ts", 29, 50);
 	}
 
 	@Test
 	public void testFileInAbsoluteDirectoryWithWindowsTypeScriptStyleLineAndColumnNumbersAndMixedSlashes() {
 		// Windows, exception from TypeScript compiler
-		assertPathDetection("From stack trace: D:\\src\\api/service.ts(29,50)", "D:\\src\\api/service.ts(29,50)", 29, 50);
+		assertPathDetection("From stack trace: D:\\src\\api/service.ts(29,50)", "D:\\src\\api/service.ts", 29, 50);
 	}
 
 	@Test
 	public void testFileWithJavaExtensionInAbsoluteDirectoryAndLineNumbersWindowsStyle() {
-		assertPathDetection("Windows: d:\\my\\file.java:150", "d:\\my\\file.java:150", 150);
+		assertPathDetection("Windows: d:\\my\\file.java:150", "d:\\my\\file.java", 150);
 	}
 
 
 	@Test
 	public void testFileWithJavaExtensionInAbsoluteDirectoryWithLineAndColumnNumbersInMaven()
 	{
-		assertPathDetection("/home/me/project/run.java:[245,15]", "/home/me/project/run.java:[245,15]", 245, 15);
+		assertPathDetection("/home/me/project/run.java:[245,15]", "/home/me/project/run.java", 245, 15);
 	}
 
 	@Test
 	public void testFileWithJavaScriptExtensionInAbsoluteDirectoryWithLineNumbers() {
 		// JS exception
-		assertPathDetection("bla-bla /home/me/project/run.js:27 something", "/home/me/project/run.js:27", 27);
+		assertPathDetection("bla-bla /home/me/project/run.js:27 something", "/home/me/project/run.js", 27);
 	}
 
 	@Test
 	public void testFileWithJavaStyleExceptionClassAndLineNumbers() {
 		// Java exception stack trace
-		assertPathDetection("bla-bla at (AwesomeLinkFilter.java:150) something", "AwesomeLinkFilter.java:150", 150);
+		assertPathDetection("bla-bla at (AwesomeLinkFilter.java:150) something", "AwesomeLinkFilter.java", 150);
 	}
 
 	@Test
 	public void testFileWithRelativeDirectoryPythonExtensionAndLineNumberPlusColumn() {
-		assertPathDetection("bla-bla at ./foobar/AwesomeConsole.py:1337:42 something", "./foobar/AwesomeConsole.py:1337:42", 1337, 42);
+		assertPathDetection("bla-bla at ./foobar/AwesomeConsole.py:1337:42 something", "./foobar/AwesomeConsole.py", 1337, 42);
 	}
 
 	@Ignore
@@ -115,8 +115,12 @@ public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 	}
 
 	@Test
-	public void test_unicore_path_filename() {
+	public void test_unicode_path_filename() {
 		assertPathDetection("No extension: 中.txt yay", "中.txt");
+	}
+
+	public void test_unicode_directory_filename() {
+		assertPathDetection("No extension:         修\uE000改\uE000：\uE000     /app/中.txt yay", "/app/中.txt");
 	}
 
 	@Test
@@ -181,28 +185,28 @@ public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 
 	@Test
 	public void testWindowsDirectoryBackwardSlashes() {
-		assertPathDetection("C:/Windows/Temp/test.tsx:5:3", "C:/Windows/Temp/test.tsx:5:3", 5, 3);
+		assertPathDetection("C:/Windows/Temp/test.tsx:5:3", "C:/Windows/Temp/test.tsx", 5, 3);
 	}
 
 	@Test
 	public void testOverlyLongRowAndColumnNumbers() {
-		assertPathDetection("test.tsx:123123123123123:12312312312312321", "test.tsx:123123123123123:12312312312312321", 0, 0);
+		assertPathDetection("test.tsx:123123123123123:12312312312312321", "test.tsx", 0, 0);
 	}
 
 	@Test
 	public void testTSCErrorMessages() {
-		assertPathDetection("C:/project/node_modules/typescript/lib/lib.webworker.d.ts:1930:6:", "C:/project/node_modules/typescript/lib/lib.webworker.d.ts:1930:6", 1930, 6);
+		assertPathDetection("C:/project/node_modules/typescript/lib/lib.webworker.d.ts:1930:6:", "C:/project/node_modules/typescript/lib/lib.webworker.d.ts", 1930, 6);
 		assertURLDetection("C:/project/node_modules/typescript/lib/lib.webworker.d.ts:1930:6:", "C:/project/node_modules/typescript/lib/lib.webworker.d.ts:1930:6:");
 	}
 
 	@Test
 	public void testPythonTracebackWithQuotes() {
-		assertPathDetection("File \"/Applications/plugins/python-ce/helpers/pycharm/teamcity/diff_tools.py\", line 38", "\"/Applications/plugins/python-ce/helpers/pycharm/teamcity/diff_tools.py\", line 38",38);
+		assertPathDetection("File \"/Applications/plugins/python-ce/helpers/pycharm/teamcity/diff_tools.py\", line 38", "/Applications/plugins/python-ce/helpers/pycharm/teamcity/diff_tools.py",38);
 	}
 
 	@Test
 	public void testAngularJSAtModule() {
-		assertPathDetection("src/app/@app/app.module.ts:42:5", "src/app/@app/app.module.ts:42:5",42, 5);
+		assertPathDetection("src/app/@app/app.module.ts:42:5", "src/app/@app/app.module.ts",42, 5);
 	}
 
 	private void assertPathDetection(final String line, final String expected) {
@@ -221,13 +225,13 @@ public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 
 		assertEquals("No matches in line \"" + line + "\"", 1, results.size());
 		FileLinkMatch info = results.get(0);
-		assertEquals(String.format("Expected filter to detect \"%s\" link in \"%s\"", expected, line), expected, info.match);
+		assertEquals(String.format("Expected filter to detect \"%s\" link in \"%s\"", expected, line), expected, info.path);
 
 		if (expectedRow >= 0)
-			assertEquals("Expected to capture row number", expectedRow, info.linkedRow);
+			assertEquals("Expected to capture row number", expectedRow, info.row);
 
 		if (expectedCol >= 0)
-			assertEquals("Expected to capture column number", expectedCol, info.linkedCol);
+			assertEquals("Expected to capture column number", expectedCol, info.col);
 	}
 
 
@@ -239,6 +243,6 @@ public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 
 		assertEquals("No matches in line \"" + line + "\"", 1, results.size());
 		URLLinkMatch info = results.get(0);
-		assertEquals(String.format("Expected filter to detect \"%s\" link in \"%s\"", expected, line), expected, info.match);
+		assertEquals(String.format("Expected filter to detect \"%s\" path in \"%s\"", expected, line), expected, info.path);
 	}
 }

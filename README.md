@@ -14,3 +14,24 @@ Links are integrated for the following types:
 - url
 
 **(This plugin requires your IDE to run on Java 8 or higher.)**
+
+
+## Installation
+Download the latest release jar
+
+Install plugin from disk
+
+Restart the IDE after installation.
+
+## Note
+
+Gradle should run with Java 11.
+
+Get the Source Code
+
+```
+git clone https://github.com/anyesu/intellij-awesome-console
+```
+Build from the Command Line
+
+You can locate the generated JAR file in the build/libs directory.

@@ -1,6 +1,6 @@
 package awesome.console;
 
-import awesome.console.config.AwesomeConsoleConfig;
+import awesome.console.config.AwesomeConsoleConfigService;
 import awesome.console.match.FileLinkMatch;
 import awesome.console.match.URLLinkMatch;
 import awesome.console.util.IntegerUtil;
@@ -10,7 +10,6 @@ import com.intellij.execution.filters.HyperlinkInfoFactory;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.LogicalPosition;
-import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -29,15 +28,14 @@ public class AwesomeLinkFilter implements Filter {
 	private static final Logger logger = Logger.getInstance(AwesomeLinkFilter.class);
 
 	public static final Pattern FILE_PATTERN = Pattern.compile(
-			"(?<link>(?<path>\"?([.~])?(([a-zA-Z]:)?[\\\\/])?\\w[@\\w/\\-.\\\\]*\\.[\\w\\-.]+)\\$?" +
-			"(?:(?::|\"?, line |:\\[|\\()(?<row>\\d+)(?:[:,]( column )?(?<col>\\d+)([)\\]])?)?)?)",
+			"(?<link>(?<prefix>.*?)(?<path>(?<!/)([.~])?(([a-zA-Z]:)?[\\\\/])?\\w[@\\w/\\-.\\\\\\uE000]*\\.[\\w\\-.]+)\\$?(?:(?::|\"?, line |:\\[|\\()(?<row>\\d+)(?:[:,]( column )?(?<col>\\d+)([)\\]])?)?)?)",
 			Pattern.UNICODE_CHARACTER_CLASS);
 	public static final Pattern URL_PATTERN = Pattern.compile(
-			"(?<link>[(']?(?<protocol>(([a-zA-Z]+):)?([/\\\\~]))(?<path>[-.!~*\\\\'()\\w;/?:@&=+$,%#]+))",
+			"(?<link>(?<prefix>.*?)[(']?(?<path>(?<protocol>(([a-zA-Z]+):)?(?=[/\\\\~]))[-.!~*\\\\'()\\w;/?:@&=+$,%#\\uE000]+(?<!\\))).*)",
 			Pattern.UNICODE_CHARACTER_CLASS);
 	private static final int maxSearchDepth = 1;
 
-	private final AwesomeConsoleConfig config;
+	private final AwesomeConsoleConfigService config;
 	private final Map<String, List<VirtualFile>> fileCache;
 	private final Map<String, List<VirtualFile>> fileBaseCache;
 	private final Project project;
@@ -52,7 +50,7 @@ public class AwesomeLinkFilter implements Filter {
 		this.fileBaseCache = new ConcurrentHashMap<>();
 		projectRootManager = ProjectRootManager.getInstance(project);
 		srcRoots = getSourceRoots();
-		config = AwesomeConsoleConfig.getInstance();
+		config = AwesomeConsoleConfigService.getInstance().getState();
 
 		createFileCache();
 	}
@@ -64,6 +62,8 @@ public class AwesomeLinkFilter implements Filter {
 		final int startPoint = endPoint - line.length();
 		final List<String> chunks = splitLine(line);
 		int offset = 0;
+		logger.info("===>"+line);
+
 
 		for (final String chunk : chunks) {
 			if (config.SEARCH_URLS) {
@@ -101,16 +101,18 @@ public class AwesomeLinkFilter implements Filter {
 		final List<URLLinkMatch> matches = detectURLs(line);
 
 		for (final URLLinkMatch match : matches) {
-			final String file = getFileFromUrl(match.match);
+			final String file = getFileFromUrl(match.link);
 
 			if (null != file && !new File(file).exists()) {
 				continue;
 			}
+
 			results.add(
-					new Result(
-							startPoint + match.start,
-							startPoint + match.end,
-							new OpenUrlHyperlinkInfo(match.match))
+				new Result(
+					startPoint + match.start,
+					startPoint + match.end,
+					new OpenUrlHyperlinkInfo(match.link)
+				)
 			);
 		}
 		return results;
@@ -153,18 +155,19 @@ public class AwesomeLinkFilter implements Filter {
 				matchingFiles = bestMatchingFiles;
 			}
 
-			final int row = match.linkedRow <= 0 ? 0 : match.linkedRow - 1;
+			final int row = match.row <= 0 ? 0 : match.row - 1;
 			final HyperlinkInfo linkInfo = hyperlinkInfoFactory.createMultipleFilesHyperlinkInfo(
-					matchingFiles,
-					row,
-					project,
-					(project, psiFile, editor, originalEditor) -> editor.getCaretModel().moveToLogicalPosition(new LogicalPosition(row, match.linkedCol))
+				matchingFiles,
+				row,
+				project,
+				(project, psiFile, editor, originalEditor) -> editor.getCaretModel().moveToLogicalPosition(new LogicalPosition(row, match.col))
 			);
 
 			results.add(new Result(
-					startPoint + match.start,
-					startPoint + match.end,
-					linkInfo)
+				// startPoint + match.start,
+				startPoint + match.prefix.length(),
+				startPoint + match.end,
+				linkInfo)
 			);
 		}
 
@@ -181,17 +184,18 @@ public class AwesomeLinkFilter implements Filter {
 		if (!foundFiles.isEmpty()) {
 			return foundFiles;
 		}
-		final String widerMetchingPath = dropOneLevelFromRoot(generalizedMatchPath);
-		if (widerMetchingPath != null) {
-			return findBestMatchingFiles(widerMetchingPath, matchingFiles);
+		final String widerMatchingPath = dropOneLevelFromRoot(generalizedMatchPath);
+		if (widerMatchingPath != null) {
+			return findBestMatchingFiles(widerMatchingPath, matchingFiles);
 		}
 		return null;
 	}
 
 	private List<VirtualFile> getFilesByPath(final String generalizedMatchPath, final List<VirtualFile> matchingFiles) {
-		return matchingFiles.parallelStream()
-				.filter(file -> generalizePath(file.getPath()).endsWith(generalizedMatchPath))
-				.collect(Collectors.toList());
+		return matchingFiles
+			.parallelStream()
+			.filter(file -> generalizePath(file.getPath()).endsWith(generalizedMatchPath))
+			.collect(Collectors.toList());
 	}
 
 	private String dropOneLevelFromRoot(final String path) {
@@ -230,15 +234,18 @@ public class AwesomeLinkFilter implements Filter {
 			return new ArrayList<>();
 		}
 
-		return fileBaseCache.get(basename).parallelStream()
-				.filter(file -> null != file.getParent())
-				.filter(file -> matchSource(file.getParent().getPath(), path))
-				.collect(Collectors.toList());
+		return fileBaseCache
+			.get(basename)
+			.parallelStream()
+			.filter(file -> null != file.getParent())
+			.filter(file -> matchSource(file.getParent().getPath(), path))
+			.collect(Collectors.toList());
 	}
 
 	private void createFileCache() {
-		projectRootManager.getFileIndex().iterateContent(
-				new AwesomeProjectFilesIterator(fileCache, fileBaseCache));
+		projectRootManager
+			.getFileIndex()
+			.iterateContent(new AwesomeProjectFilesIterator(fileCache, fileBaseCache));
 	}
 
 	private List<String> getSourceRoots() {
@@ -262,6 +269,7 @@ public class AwesomeLinkFilter implements Filter {
 		final List<FileLinkMatch> results = new LinkedList<>();
 		while (fileMatcher.find()) {
 			final String match = fileMatcher.group("link");
+			final String prefix = fileMatcher.group("prefix");
 			final String path = fileMatcher.group("path");
 			if (null == path) {
 				logger.error("Regex group 'path' was NULL while trying to match path line: " + line + "\nfor match: " + match);
@@ -269,9 +277,15 @@ public class AwesomeLinkFilter implements Filter {
 			}
 			final int row = IntegerUtil.parseInt(fileMatcher.group("row")).orElse(0);
 			final int col = IntegerUtil.parseInt(fileMatcher.group("col")).orElse(0);
-			results.add(new FileLinkMatch(match, path,
-					fileMatcher.start(), fileMatcher.end(),
-					row, col));
+			results.add(new FileLinkMatch(
+				match,
+				prefix,
+				path,
+				fileMatcher.start(),
+				fileMatcher.end(),
+				row,
+				col
+			));
 		}
 		return results;
 	}
@@ -282,9 +296,14 @@ public class AwesomeLinkFilter implements Filter {
 		urlMatcher.reset(line);
 		final List<URLLinkMatch> results = new LinkedList<>();
 		while (urlMatcher.find()) {
-			String match = urlMatcher.group("link");
-			if (null == match) {
-				logger.error("Regex group 'link' was NULL while trying to match url line: " + line);
+			String link = urlMatcher.group("link");
+//			if (!link.startsWith("File")) {
+//				continue;
+//			}
+			String prefix = urlMatcher.group("prefix");
+			String path = urlMatcher.group("path");
+			if (null == path) {
+				logger.error("Regex group 'path' was NULL while trying to match url line: " + line);
 				continue;
 			}
 
@@ -294,16 +313,23 @@ public class AwesomeLinkFilter implements Filter {
 			for (final String surrounding : new String[]{"()", "''"}) {
 				final String start = "" + surrounding.charAt(0);
 				final String end = "" + surrounding.charAt(1);
-				if (match.startsWith(start)) {
+				if (path.startsWith(start)) {
 					startOffset = 1;
-					match = match.substring(1);
-					if (match.endsWith(end)) {
+					path = path.substring(1);
+					if (path.endsWith(end)) {
 						endOffset = 1;
-						match = match.substring(0, match.length() - 1);
+						path = path.substring(0, path.length() - 1);
 					}
 				}
 			}
-			results.add(new URLLinkMatch(match, urlMatcher.start() + startOffset, urlMatcher.end() - endOffset));
+			results.add(new URLLinkMatch(
+				link,
+				prefix,
+				path,
+				// urlMatcher.start() + startOffset,
+				prefix.length() + startOffset,
+				urlMatcher.end() - endOffset
+			));
 		}
 		return results;
 	}
