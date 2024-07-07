@@ -65,9 +65,11 @@ public class AwesomeLinkFilter implements Filter {
 
 		for (final String chunk : chunks) {
 			if (config.SEARCH_URLS) {
-				results.addAll(getResultItemsUrl(chunk, startPoint + offset));
+				List<ResultItem> urlsItems = getResultItemsUrl(chunk, startPoint + offset);
+				results.addAll(urlsItems);
 			}
-			results.addAll(getResultItemsFile(chunk, startPoint + offset));
+			List<ResultItem> fileItems = getResultItemsFile(chunk, startPoint + offset);
+			results.addAll(fileItems);
 			offset += chunk.length();
 		}
 
