@@ -62,7 +62,7 @@ public class AwesomeLinkFilter implements Filter {
 		final int startPoint = endPoint - line.length();
 		final List<String> chunks = splitLine(line);
 		int offset = 0;
-		logger.info("===>"+line);
+		logger.info(String.format("===%s\n", line));
 
 
 		for (final String chunk : chunks) {

@@ -18,7 +18,6 @@ repositories {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     pluginName = pluginTitle
-    pluginName = pluginTitle
     version = platformVersion
     type = platformType
     plugins = ["java"]
