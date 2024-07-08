@@ -28,7 +28,7 @@ public class AwesomeLinkFilter implements Filter {
 	private static final Logger logger = Logger.getInstance(AwesomeLinkFilter.class);
 
 	public static final Pattern FILE_PATTERN = Pattern.compile(
-			"(?<link>(?<prefix>.*?)(?<path>(?<!/)([.~])?(([a-zA-Z]:)?[\\\\/])?\\w[@\\w/\\-.\\\\\\uE000]*\\.[\\w\\-.]+)\\$?(?:(?::|\"?, line |:\\[|\\()(?<row>\\d+)(?:[:,]( column )?(?<col>\\d+)([)\\]])?)?)?)",
+			"(?<link>(?<prefix>.*?)(?<path>(?<!/)([.~])?(([a-zA-Z]:)?[\\\\/])?\\w[@\\w/\\-.\\\\\\uE000]*\\.[\\w\\-./@+_]+)\\$?(?:(?::|\"?, line |:\\[|\\()(?<row>\\d+)(?:[:,]( column )?(?<col>\\d+)([)\\]])?)?)?)",
 			Pattern.UNICODE_CHARACTER_CLASS);
 	public static final Pattern URL_PATTERN = Pattern.compile(
 			"(?<link>(?<prefix>.*?)[(']?(?<path>(?<protocol>(([a-zA-Z]+):)?(?=[/\\\\~]))[-.!~*\\\\'()\\w;/?:@&=+$,%#\\uE000]+(?<!\\))).*)",
