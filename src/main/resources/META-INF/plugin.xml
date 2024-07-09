@@ -10,8 +10,6 @@
 			<br/>
 			<p>With this plugin all files and links in the console and terminal will be highlighted and can be clicked. Source code files will be opened in the IDE, other links with the default viewer/browser for this type.<p/>
 			<p>Now you just need to configure your favorite Logger to include the file name (and optionally a line number) and you can instantly jump to that file that throws this stupid error.<p/>
-			<br/>
-			<img src="https://raw.githubusercontent.com/github-2013/intellij-awesome-console-x/master/data/screenshot.png" alt="screenshot" /><br/>
 		]]>
 	</description>
  	<change-notes>
@@ -20,6 +18,7 @@
 			<b>0.1337.15</b><br/>
 			<ul>
 				<li>add match to /xxx/xx/.pnpm/@xxx+xx@x.x.x_xxx-xx@x.x.x/xxx/xx.xx:x:x</li>
+				<li>add match node_modules path toggle checkbox</li>
 			</ul>
 			<b>0.1337.14</b><br/>
 			<ul>

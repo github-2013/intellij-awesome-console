@@ -20,6 +20,7 @@ public class AwesomeConsoleConfigForm {
 	public JCheckBox matchLinesLongerThanCheckBox;
 	public JCheckBox searchForURLsFileCheckBox;
 	public JLabel configTitleLabel;
+	public JCheckBox matchNodeModulesPathCheckBox;
 
 	public AwesomeConsoleConfigForm() {
 		maxLengthTextField.setText(String.valueOf(DefaultConfig.DEFAULT_LINE_MAX_LENGTH));
@@ -43,6 +44,13 @@ public class AwesomeConsoleConfigForm {
 			public void actionPerformed(final ActionEvent e) {
 				boolean isSelected = searchForURLsFileCheckBox.isSelected();
 				searchForURLsFileCheckBox.setSelected(isSelected);
+			}
+		});
+		matchNodeModulesPathCheckBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				boolean isSelected = matchNodeModulesPathCheckBox.isSelected();
+				matchNodeModulesPathCheckBox.setSelected(isSelected);
 			}
 		});
 	}

@@ -19,6 +19,7 @@ public class AwesomeConsoleConfigService implements PersistentStateComponent<Awe
 	public boolean LIMIT_LINE_LENGTH = DefaultConfig.DEFAULT_LIMIT_LINE_LENGTH;
 	public int LINE_MAX_LENGTH = DefaultConfig.DEFAULT_LINE_MAX_LENGTH;
 	public boolean SEARCH_URLS = DefaultConfig.DEFAULT_SEARCH_URLS;
+	public boolean MATCH_NODE_MODULES_PATH = DefaultConfig.DEFAULT_MATCH_NODE_MODULES_PATH;
 
 	@Transient
 	private AwesomeConsoleConfigForm form;

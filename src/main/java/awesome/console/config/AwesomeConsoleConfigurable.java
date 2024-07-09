@@ -45,7 +45,8 @@ final class AwesomeConsoleConfigurable implements Configurable {
         return form.limitLineMatchingByCheckBox.isSelected() != state.LIMIT_LINE_LENGTH
                 || maxLength != state.LINE_MAX_LENGTH
                 || form.matchLinesLongerThanCheckBox.isSelected() != state.SPLIT_ON_LIMIT
-                || form.searchForURLsFileCheckBox.isSelected() != state.SEARCH_URLS;
+                || form.searchForURLsFileCheckBox.isSelected() != state.SEARCH_URLS
+                || form.matchNodeModulesPathCheckBox.isSelected() != state.MATCH_NODE_MODULES_PATH;
     }
 
     @Override
@@ -62,6 +63,7 @@ final class AwesomeConsoleConfigurable implements Configurable {
         state.LINE_MAX_LENGTH = maxLength;
         state.SPLIT_ON_LIMIT = form.matchLinesLongerThanCheckBox.isSelected();
         state.SEARCH_URLS = form.searchForURLsFileCheckBox.isSelected();
+        state.MATCH_NODE_MODULES_PATH = form.matchNodeModulesPathCheckBox.isSelected();
     }
 
     @Override
@@ -78,6 +80,8 @@ final class AwesomeConsoleConfigurable implements Configurable {
         form.maxLengthTextField.setText(String.valueOf(state.LINE_MAX_LENGTH));
         form.maxLengthTextField.setEnabled(state.LIMIT_LINE_LENGTH);
         form.maxLengthTextField.setEditable(state.LIMIT_LINE_LENGTH);
+
+        form.matchNodeModulesPathCheckBox.setSelected(state.MATCH_NODE_MODULES_PATH);
     }
 
     @Override

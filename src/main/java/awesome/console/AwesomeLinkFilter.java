@@ -163,12 +163,14 @@ public class AwesomeLinkFilter implements Filter {
 				(project, psiFile, editor, originalEditor) -> editor.getCaretModel().moveToLogicalPosition(new LogicalPosition(row, match.col))
 			);
 
-			results.add(new Result(
-				// startPoint + match.start,
-				startPoint + match.prefix.length(),
-				startPoint + match.end,
-				linkInfo)
-			);
+			if (config.MATCH_NODE_MODULES_PATH && match.path.contains("node_modules")) {
+				results.add(new Result(
+					// startPoint + match.start,
+					startPoint + match.prefix.length(),
+					startPoint + match.end,
+					linkInfo)
+				);
+			}
 		}
 
 		return results;
