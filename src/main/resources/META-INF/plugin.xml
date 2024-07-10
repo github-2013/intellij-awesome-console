@@ -15,6 +15,10 @@
  	<change-notes>
 		<![CDATA[
 		<p>
+			<b>0.1337.16</b><br/>
+			<ul>
+				<li>fix awesome console x configurable panel isn't load</li>
+			</ul>
 			<b>0.1337.15</b><br/>
 			<ul>
 				<li>add match to /xxx/xx/.pnpm/@xxx+xx@x.x.x_xxx-xx@x.x.x/xxx/xx.xx:x:x</li>

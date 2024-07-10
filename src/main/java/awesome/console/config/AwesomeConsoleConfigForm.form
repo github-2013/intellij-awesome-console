@@ -30,7 +30,7 @@
               <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <selected value="false"/>
+              <selected value="true"/>
               <text value="Limit line matching by"/>
             </properties>
           </component>
@@ -62,7 +62,7 @@
               <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <selected value="false"/>
+              <selected value="true"/>
               <text value="Match lines longer than the limit chunk by chunk."/>
               <toolTipText value="Check this to keep on matching the text of a line longer than the defined limit. Keep in mind: The text will be matched chunk by chunk, so it might miss some links."/>
             </properties>
@@ -81,6 +81,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <selected value="false"/>
               <text value="Match node_modules paths."/>
             </properties>
           </component>
