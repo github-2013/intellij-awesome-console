@@ -26,7 +26,3 @@ intellij {
     type = platformType
     plugins = ["java"]
 }
-
-patchPluginXml {
-    untilBuild = ""
-}

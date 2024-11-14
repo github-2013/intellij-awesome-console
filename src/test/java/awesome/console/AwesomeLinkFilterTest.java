@@ -10,6 +10,11 @@ import java.util.List;
 
 public class AwesomeLinkFilterTest extends BasePlatformTestCase {
 	@Test
+	public void testFileWithGitignore() {
+		assertPathDetection(".gitignore", ".gitignore");
+	}
+
+	@Test
 	public void testFileWithoutDirectory() {
 		assertPathDetection("Just a file: test.txt", "test.txt");
 	}
