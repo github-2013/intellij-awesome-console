@@ -3,8 +3,6 @@
 /.gradle
 *.class
 *.jar
-.idea
+/.idea
 .intellijPlatform
-
-.idea/workspace.xml
 src/test/resources
