@@ -1,28 +1,29 @@
 plugins {
-    id 'java'
-    id 'org.jetbrains.intellij' version '1.17.4'
-}
-
-java {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    id 'org.jetbrains.intellij.platform' version '2.1.0'
 }
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
+    intellijPlatform {
+        id = 'awesome.console.x'
+        name = 'Awesome Console X'
+        version = '0.1337.19'
+        intellijIdeaCommunity('2024.2')
+        bundledPlugin 'com.intellij.java'
+    }
+    pluginConfiguration {
+        vendor {
+            name = 'xuxingjie'
+            email = '553926121@qq.com'
+            url = 'https://github.com/github-2013/intellij-awesome-console-x'
+        }
+    }
     testRuntimeOnly("junit:junit:4.13.2")
-}
-
-// See https://github.com/JetBrains/gradle-intellij-plugin/
-intellij {
-    pluginName = pluginTitle
-    version = platformVersion
-    type = platformType
-    plugins = ["java"]
 }
