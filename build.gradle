@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+
 plugins {
     id 'org.jetbrains.intellij.platform' version '2.1.0'
 }
@@ -12,18 +14,34 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        id = 'awesome.console.x'
-        name = 'Awesome Console X'
-        version = '0.1337.19'
         intellijIdeaCommunity('2024.2')
+
         bundledPlugin 'com.intellij.java'
+
+        pluginVerifier()
+        instrumentationTools()
+
+        testFramework TestFrameworkType.Platform.INSTANCE
     }
+    testImplementation 'junit:junit:4.13.2'
+    testRuntimeOnly 'junit:junit:4.13.2'
+}
+
+intellijPlatform {
     pluginConfiguration {
+        id = providers.gradleProperty('pluginId')
+        name = providers.gradleProperty('pluginTitle')
+        version = providers.gradleProperty('pluginVersion')
         vendor {
-            name = 'xuxingjie'
+            name = 'xingjiexu'
             email = '553926121@qq.com'
             url = 'https://github.com/github-2013/intellij-awesome-console-x'
         }
     }
-    testRuntimeOnly("junit:junit:4.13.2")
+}
+
+tasks {
+    test {
+
+    }
 }

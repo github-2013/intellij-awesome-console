@@ -3,7 +3,6 @@ package awesome.console;
 import awesome.console.match.FileLinkMatch;
 import awesome.console.match.URLLinkMatch;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
