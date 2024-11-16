@@ -23,10 +23,10 @@ dependencies {
 
         testFramework TestFrameworkType.Platform.INSTANCE
     }
-    testImplementation 'junit:junit:4.13.2'
-    testRuntimeOnly 'junit:junit:4.13.2'
-//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
-//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.3'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
+    testCompileOnly("junit:junit:4.13.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 intellijPlatform {
@@ -42,10 +42,8 @@ intellijPlatform {
     }
 }
 
-intellijPlatformTesting {
-    test {
-        useJUnit()
-//        useJUnitPlatform()
-    }
+
+test {
+    useJUnitPlatform()
 }
 
