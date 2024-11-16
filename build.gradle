@@ -1,28 +1,49 @@
-plugins {
-    id 'java'
-    id 'org.jetbrains.intellij' version '1.17.4'
-}
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
-java {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+plugins {
+    id "org.jetbrains.intellij.platform" version "2.1.0"
 }
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
-    testRuntimeOnly("junit:junit:4.13.2")
+    intellijPlatform {
+        intellijIdeaCommunity("2024.2")
+
+        bundledPlugin "com.intellij.java"
+
+        pluginVerifier()
+        instrumentationTools()
+
+        testFramework TestFrameworkType.Platform.INSTANCE
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
+    testCompileOnly("junit:junit:4.13.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
-intellij {
-    pluginName = pluginTitle
-    version = platformVersion
-    type = platformType
-    plugins = ["java"]
+intellijPlatform {
+    pluginConfiguration {
+        id = providers.gradleProperty("pluginId")
+        name = providers.gradleProperty("pluginTitle")
+        version = providers.gradleProperty("pluginVersion")
+        vendor {
+            name = "xingjiexu"
+            email = "553926121@qq.com"
+            url = "https://github.com/github-2013/intellij-awesome-console-x"
+        }
+    }
 }
+
+
+test {
+    useJUnitPlatform()
+}
+
