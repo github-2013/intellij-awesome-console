@@ -1,7 +1,7 @@
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
-    id 'org.jetbrains.intellij.platform' version '2.1.0'
+    id "org.jetbrains.intellij.platform" version "2.1.0"
 }
 
 repositories {
@@ -14,9 +14,9 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity('2024.2')
+        intellijIdeaCommunity("2024.2")
 
-        bundledPlugin 'com.intellij.java'
+        bundledPlugin "com.intellij.java"
 
         pluginVerifier()
         instrumentationTools()
@@ -31,13 +31,13 @@ dependencies {
 
 intellijPlatform {
     pluginConfiguration {
-        id = providers.gradleProperty('pluginId')
-        name = providers.gradleProperty('pluginTitle')
-        version = providers.gradleProperty('pluginVersion')
+        id = providers.gradleProperty("pluginId")
+        name = providers.gradleProperty("pluginTitle")
+        version = providers.gradleProperty("pluginVersion")
         vendor {
-            name = 'xingjiexu'
-            email = '553926121@qq.com'
-            url = 'https://github.com/github-2013/intellij-awesome-console-x'
+            name = "xingjiexu"
+            email = "553926121@qq.com"
+            url = "https://github.com/github-2013/intellij-awesome-console-x"
         }
     }
 }
