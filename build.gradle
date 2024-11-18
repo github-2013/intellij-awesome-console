@@ -39,6 +39,10 @@ intellijPlatform {
             email = "553926121@qq.com"
             url = "https://github.com/github-2013/intellij-awesome-console-x"
         }
+        ideaVersion {
+            sinceBuild = '242.*'
+            untilBuild = '243.*'
+        }
     }
 }
 
