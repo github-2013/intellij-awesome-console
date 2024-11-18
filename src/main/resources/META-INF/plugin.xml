@@ -15,6 +15,10 @@
  	<change-notes>
 		<![CDATA[
 		<p>
+			<b>0.1337.21</b><br/>
+			<ul>
+				<li>fix some bugs</li>
+			</ul>
 			<b>0.1337.20</b><br/>
 			<ul>
 				<li>fix version range</li>

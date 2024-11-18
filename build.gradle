@@ -1,6 +1,7 @@
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
+    id "java"
     id "org.jetbrains.intellij.platform" version "2.1.0"
 }
 
@@ -47,7 +48,20 @@ intellijPlatform {
 }
 
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.release.set(22)
+}
+
 test {
     useJUnitPlatform()
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
 }
 
