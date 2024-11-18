@@ -15,6 +15,10 @@
  	<change-notes>
 		<![CDATA[
 		<p>
+			<b>0.1337.20</b><br/>
+			<ul>
+				<li>fix version range</li>
+			</ul>
 			<b>0.1337.19</b><br/>
 			<ul>
 				<li>compatible 2024.2 above</li>
