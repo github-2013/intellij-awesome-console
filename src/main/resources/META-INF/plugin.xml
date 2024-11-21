@@ -136,12 +136,13 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<consoleFilterProvider implementation="awesome.console.AwesomeLinkFilterProvider"/>
 		<applicationConfigurable
-			instance="awesome.console.config.AwesomeConsoleConfigurable"
-			id="awesome.console.config.AwesomeConsoleConfigurable"
+			instance="awesome.console.config.AwesomeConsoleConfig"
+			id="awesome.console.config.AwesomeConsoleConfig"
 			displayName="Awesome Console X"
 		/>
 		<applicationService
-			serviceImplementation="awesome.console.config.AwesomeConsoleConfigService"
+			serviceImplementation="awesome.console.config.AwesomeConsoleStorage"
 		/>
+		<notificationGroup displayType="NONE" id="Awesome Console X" />
 	</extensions>
 </idea-plugin>
