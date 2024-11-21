@@ -132,7 +132,7 @@
 		</p>
 		]]>
 	</change-notes>
-	<depends>com.intellij.modules.lang</depends>
+	<depends>com.intellij.modules.platform</depends>
 	<extensions defaultExtensionNs="com.intellij">
 		<consoleFilterProvider implementation="awesome.console.AwesomeLinkFilterProvider"/>
 		<applicationConfigurable
@@ -143,6 +143,6 @@
 		<applicationService
 			serviceImplementation="awesome.console.config.AwesomeConsoleStorage"
 		/>
-		<notificationGroup displayType="NONE" id="Awesome Console X" />
+		<notificationGroup displayType="BALLOON" id="Awesome Console X" />
 	</extensions>
 </idea-plugin>

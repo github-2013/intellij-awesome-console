@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Notifier {
 
-    public static final NotificationGroup NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("Awesome Console");
+    public static final NotificationGroup NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("Awesome Console X");
 
     public static final String GROUP_ID = NOTIFICATION_GROUP.getDisplayId();
 

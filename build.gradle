@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("2024.2")
+        intellijIdeaCommunity("2024.3")
 
         bundledPlugin "com.intellij.java"
 
@@ -41,12 +41,17 @@ intellijPlatform {
             url = "https://github.com/github-2013/intellij-awesome-console-x"
         }
         ideaVersion {
-            sinceBuild = '242'
-            untilBuild = '243.*'
+            sinceBuild = '243'
+//            untilBuild = '243.*'
         }
     }
 }
 
+//tasks.withType(JavaCompile).configureEach {
+//    javaCompiler = javaToolchains.compilerFor {
+//        languageVersion = JavaLanguageVersion.of(8)
+//    }
+//}
 
 java {
     toolchain {
@@ -54,14 +59,10 @@ java {
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.release.set(21)
-}
-
 test {
     useJUnitPlatform()
     javaLauncher = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(22)
     }
 }
 
