@@ -47,22 +47,22 @@ intellijPlatform {
     }
 }
 
-//tasks.withType(JavaCompile).configureEach {
-//    javaCompiler = javaToolchains.compilerFor {
-//        languageVersion = JavaLanguageVersion.of(8)
-//    }
-//}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 test {
     useJUnitPlatform()
-    javaLauncher = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(22)
-    }
+//    javaLauncher = javaToolchains.launcherFor {
+//        languageVersion = JavaLanguageVersion.of(21)
+//    }
 }
 
