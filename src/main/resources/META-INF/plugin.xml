@@ -17,7 +17,9 @@
 		<p>
 			<b>0.1337.22</b><br/>
 			<ul>
-				<li>merge pull request</li>
+				<li>merge pull request from anthraxx/intellij-awesome-console</li>
+				<li>compitable java 22</li>
+				<li>require webstorm2024.3 above</li>
 			</ul>
 			<b>0.1337.21</b><br/>
 			<ul>
